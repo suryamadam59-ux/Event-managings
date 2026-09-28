@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ROYAL EVENTS — Supply Manifest & Material Planner</title>
+<link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="manifest">
+    <div class="brand">
+      <svg width="46" height="46" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="20" width="56" height="38" fill="none" stroke="#2F6F6B" stroke-width="3"/>
+        <path d="M4 20 L32 6 L60 20" fill="none" stroke="#23262B" stroke-width="3" stroke-linejoin="round"/>
+        <line x1="32" y1="6" x2="32" y2="58" stroke="#C79A3D" stroke-width="2" stroke-dasharray="3 3"/>
+        <path d="M16 38 L27 49 L48 26" fill="none" stroke="#2F6F6B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="manifest-title">
+        <h1>ROYAL EVENTS</h1>
+        <p class="eyebrow">Supply Manifest &amp; Material Planner</p>
+        <p>Pick an event type, check off what's packed, adjust quantities, and keep booking contacts in one place.</p>
+      </div>
+    </div>
+    <div class="stamp">Materials — Ready to Pack</div>
+  </header>
+
+  <div class="userbar" id="userBar"></div>
+
+  <!-- ---------- Login screen ---------- -->
+  <div class="login-overlay" id="loginScreen">
+    <h2>Sign in</h2>
+    <p class="sub">Use this to keep customer bookings and manager assignments tied to a named account on this device.</p>
+
+    <div class="role-toggle" id="roleToggle">
+      <button type="button" class="active" data-role="Customer">Customer</button>
+      <button type="button" data-role="Event Manager">Event Manager</button>
+    </div>
+
+    <div class="field">
+      <label for="loginName">Full name</label>
+      <input type="text" id="loginName" placeholder="e.g. Priya Sharma">
+    </div>
+    <div class="field">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com">
+    </div>
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" placeholder="Choose or enter your password">
+    </div>
+    <div class="login-error" id="loginError"></div>
+    <button class="primary" id="loginBtn" style="width:100%;">Sign in</button>
+
+    <p class="login-note">First time with this email? Signing in creates your account automatically, saved only in this browser. This is a lightweight, front-end-only login for planning purposes — it does not encrypt or sync data anywhere, so don't use a password you rely on elsewhere.</p>
+  </div>
+
+  <!-- ---------- Main app ---------- -->
+  <div id="appContent">
+
+    <div class="next-step" id="nextStepBanner"></div>
+
+    <div class="toolbar">
+      <select id="eventSelect"></select>
+      <input type="search" id="searchBox" placeholder="Search materials (e.g. table, mic, tape)…">
+      <div class="progress" id="progressText"></div>
+    </div>
+
+    <section class="booking">
+      <h2>Booking & Contacts</h2>
+      <p class="sub">Saved per event type, alongside its material list.</p>
+      <div class="booking-grid">
+        <div class="booking-col">
+          <h3>Customer booking this event</h3>
+          <div class="field"><label>Full name</label><input type="text" id="custName"></div>
+          <div class="field"><label>Phone</label><input type="tel" id="custPhone"></div>
+          <div class="field"><label>Email</label><input type="email" id="custEmail"></div>
+          <div class="field"><label>Event date</label><input type="date" id="custDate"></div>
+          <div class="field"><label>Venue / address</label><input type="text" id="custVenue"></div>
+          <div class="field"><label>Notes / special requests</label><textarea id="custNotes"></textarea></div>
+        </div>
+        <div class="booking-col">
+          <h3>Event manager assigned</h3>
+          <div class="field"><label>Full name</label><input type="text" id="mgrName"></div>
+          <div class="field"><label>Phone</label><input type="tel" id="mgrPhone"></div>
+          <div class="field"><label>Email</label><input type="email" id="mgrEmail"></div>
+          <div class="field"><label>Company / role</label><input type="text" id="mgrRole"></div>
+        </div>
+      </div>
+
+      <div class="payment" id="paymentSection">
+        <h3>Payment (UPI)</h3>
+        <div class="role-toggle" id="payMethodToggle" style="max-width:320px;">
+          <button type="button" class="active" data-method="upi">UPI ID</button>
+          <button type="button" data-method="mobile">Mobile Number</button>
+        </div>
+        <input type="hidden" id="payMethod" value="upi">
+        <div class="payment-row">
+          <div class="field"><label>Amount to collect (₹)</label><input type="number" id="payAmount" min="0" placeholder="e.g. 25000"></div>
+          <div class="field"><label id="payUpiIdLabel">Receiving UPI ID</label><input type="text" id="payUpiId" placeholder="royalevents@okhdfcbank"></div>
+          <button class="upi-btn" id="payUpiBtn" type="button">Pay via UPI app</button>
+        </div>
+        <div class="pay-status">
+          <label for="payStatus">Status:</label>
+          <select id="payStatus">
+            <option value="unpaid">Unpaid</option>
+            <option value="paid">Paid</option>
+          </select>
+          <span class="pay-pill unpaid" id="payPill">Unpaid</span>
+        </div>
+        <p style="font-size:11.5px;color:var(--ink-soft);margin-top:10px;">
+          "Pay via UPI app" opens the customer's UPI app (Google Pay, PhonePe, Paytm, etc.) with the amount and UPI ID pre-filled — works on a mobile device with a UPI app installed. It doesn't confirm the payment itself; switch the status to Paid once you've verified it landed.
+        </p>
+      </div>
+
+      <div class="booking-save">
+        <button class="primary" id="saveBookingBtn">Save booking details</button>
+        <span class="booking-saved-note" id="bookingSavedNote"></span>
+      </div>
+    </section>
+
+    <main id="categoryList"></main>
+
+    <div class="add-row">
+      <input type="text" id="newItemName" placeholder="Add a material not on the list…">
+      <select id="newItemCategory"></select>
+      <button class="primary" id="addItemBtn">Add item</button>
+    </div>
+
+    <button class="pay-cta" id="jumpToPaymentBtn" type="button">Proceed to Payment (UPI) →</button>
+
+    <footer class="actions">
+      <button class="ghost" id="checkAllBtn">Check all</button>
+      <button class="ghost" id="uncheckAllBtn">Uncheck all</button>
+      <button class="ghost" id="exportBtn">Export list (.txt)</button>
+      <button class="ghost" id="resetBtn">Reset this event's list</button>
+    </footer>
+
+  </div>
+</div>
+
+<script src="app.js" defer></script>
+
+</body>
+</html>
